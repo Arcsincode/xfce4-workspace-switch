@@ -17,7 +17,7 @@ CXX           = g++
 DEFINES       = -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -O2 -std=gnu++11 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I../workspace-switch -I. -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I. -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++
+INCPATH       = -I../workspace-switch -I. -I../workspace-switch -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I. -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++
 QMAKE         = /home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -54,12 +54,16 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../workspace-switch/buttonstyle.cpp \
 		../workspace-switch/main.cpp \
+		../workspace-switch/mypushbutton.cpp \
 		../workspace-switch/widget.cpp \
-		../workspace-switch/workspaceswitcher.cpp moc_widget.cpp
+		../workspace-switch/workspaceswitcher.cpp moc_mypushbutton.cpp \
+		moc_widget.cpp
 OBJECTS       = buttonstyle.o \
 		main.o \
+		mypushbutton.o \
 		widget.o \
 		workspaceswitcher.o \
+		moc_mypushbutton.o \
 		moc_widget.o
 DIST          = /home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../../App/Qt5.12.12/5.12.12/gcc_64/mkspecs/common/unix.conf \
@@ -256,9 +260,11 @@ DIST          = /home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/sp
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/yacc.prf \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/lex.prf \
 		../workspace-switch/workspace-switch.pro ../workspace-switch/buttonstyle.h \
+		../workspace-switch/mypushbutton.h \
 		../workspace-switch/widget.h \
 		../workspace-switch/workspaceswitcher.h ../workspace-switch/buttonstyle.cpp \
 		../workspace-switch/main.cpp \
+		../workspace-switch/mypushbutton.cpp \
 		../workspace-switch/widget.cpp \
 		../workspace-switch/workspaceswitcher.cpp
 QMAKE_TARGET  = workspace-switch
@@ -678,8 +684,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../workspace-switch/buttonstyle.h ../workspace-switch/widget.h ../workspace-switch/workspaceswitcher.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../workspace-switch/buttonstyle.cpp ../workspace-switch/main.cpp ../workspace-switch/widget.cpp ../workspace-switch/workspaceswitcher.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../workspace-switch/buttonstyle.h ../workspace-switch/mypushbutton.h ../workspace-switch/widget.h ../workspace-switch/workspaceswitcher.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../workspace-switch/buttonstyle.cpp ../workspace-switch/main.cpp ../workspace-switch/mypushbutton.cpp ../workspace-switch/widget.cpp ../workspace-switch/workspaceswitcher.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../workspace-switch/widget.ui $(DISTDIR)/
 
 
@@ -717,9 +723,120 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -O2 -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h /home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_widget.cpp
+compiler_moc_header_make_all: moc_mypushbutton.cpp moc_widget.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_widget.cpp
+	-$(DEL_FILE) moc_mypushbutton.cpp moc_widget.cpp
+moc_mypushbutton.cpp: ../workspace-switch/mypushbutton.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QPushButton \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qpushbutton.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobal.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qconfig.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtcore-config.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsysinfo.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlogging.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qflags.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmutex.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnumeric.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qversiontagging.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtgui-config.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qicon.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsize.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnamespace.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlist.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qalgorithms.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiterator.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qrefcount.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qarraydata.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstring.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qchar.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbytearray.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringliteral.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringview.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qpair.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringlist.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qregexp.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpixmap.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qrect.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmargins.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qpoint.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qcolor.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qrgb.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qrgba64.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qshareddata.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhash.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcoreevent.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmetatype.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject_impl.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qimage.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpixelformat.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtransform.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qmatrix.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpolygon.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvector.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qregion.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdatastream.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiodevice.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qline.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpainterpath.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qkeysequence.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qwidget.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpalette.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qbrush.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qfont.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qfontinfo.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qcursor.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qevent.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvariant.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmap.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdebug.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtextstream.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlocale.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qset.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qurl.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qurlquery.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfile.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfiledevice.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qvector2d.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtouchdevice.h \
+		moc_predefs.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/bin/moc
+	/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/bin/moc $(DEFINES) --include /media/arcsinszy/Hard-Disk/ubuntu_data/arcsinszy/project/QT_PROJECT/qt_project/build-workspace-switch-unknown_cd255f-Release/moc_predefs.h -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++ -I/media/arcsinszy/Hard-Disk/ubuntu_data/arcsinszy/project/QT_PROJECT/qt_project/workspace-switch -I/media/arcsinszy/Hard-Disk/ubuntu_data/arcsinszy/project/QT_PROJECT/qt_project/workspace-switch -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../workspace-switch/mypushbutton.h -o moc_mypushbutton.cpp
+
 moc_widget.cpp: ../workspace-switch/widget.h \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QWidget \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qwidget.h \
@@ -841,11 +958,14 @@ moc_widget.cpp: ../workspace-switch/widget.h \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/QMouseEvent \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QFile \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QSystemTrayIcon \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qsystemtrayicon.h \
 		../workspace-switch/buttonstyle.h \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QString \
+		../workspace-switch/mypushbutton.h \
 		moc_predefs.h \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/bin/moc
-	/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/bin/moc $(DEFINES) --include /media/arcsinszy/Hard-Disk/ubuntu_data/arcsinszy/project/QT_PROJECT/qt_project/build-workspace-switch-unknown_cd255f-Release/moc_predefs.h -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++ -I/media/arcsinszy/Hard-Disk/ubuntu_data/arcsinszy/project/QT_PROJECT/qt_project/workspace-switch -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../workspace-switch/widget.h -o moc_widget.cpp
+	/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/bin/moc $(DEFINES) --include /media/arcsinszy/Hard-Disk/ubuntu_data/arcsinszy/project/QT_PROJECT/qt_project/build-workspace-switch-unknown_cd255f-Release/moc_predefs.h -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++ -I/media/arcsinszy/Hard-Disk/ubuntu_data/arcsinszy/project/QT_PROJECT/qt_project/workspace-switch -I/media/arcsinszy/Hard-Disk/ubuntu_data/arcsinszy/project/QT_PROJECT/qt_project/workspace-switch -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui -I/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../workspace-switch/widget.h -o moc_widget.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1044,8 +1164,11 @@ main.o: ../workspace-switch/main.cpp ../workspace-switch/widget.h \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/QMouseEvent \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QFile \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QSystemTrayIcon \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qsystemtrayicon.h \
 		../workspace-switch/buttonstyle.h \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QString \
+		../workspace-switch/mypushbutton.h \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QApplication \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qapplication.h \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcoreapplication.h \
@@ -1054,6 +1177,115 @@ main.o: ../workspace-switch/main.cpp ../workspace-switch/widget.h \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qinputmethod.h \
 		../workspace-switch/workspaceswitcher.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../workspace-switch/main.cpp
+
+mypushbutton.o: ../workspace-switch/mypushbutton.cpp ../workspace-switch/mypushbutton.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QPushButton \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qpushbutton.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobal.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qconfig.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtcore-config.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsysinfo.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlogging.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qflags.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmutex.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnumeric.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qversiontagging.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtgui-config.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qicon.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsize.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnamespace.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlist.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qalgorithms.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiterator.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qrefcount.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qarraydata.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstring.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qchar.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbytearray.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringliteral.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringview.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qpair.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringlist.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qregexp.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpixmap.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qrect.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmargins.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qpoint.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qcolor.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qrgb.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qrgba64.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qshareddata.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhash.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcoreevent.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmetatype.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject_impl.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qimage.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpixelformat.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtransform.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qmatrix.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpolygon.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvector.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qregion.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdatastream.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiodevice.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qline.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpainterpath.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qkeysequence.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qwidget.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpalette.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qbrush.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qfont.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qfontinfo.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qcursor.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qevent.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvariant.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmap.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdebug.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtextstream.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlocale.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qset.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qurl.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qurlquery.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfile.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfiledevice.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qvector2d.h \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtouchdevice.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mypushbutton.o ../workspace-switch/mypushbutton.cpp
 
 widget.o: ../workspace-switch/widget.cpp ../workspace-switch/widget.h \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QWidget \
@@ -1176,8 +1408,11 @@ widget.o: ../workspace-switch/widget.cpp ../workspace-switch/widget.h \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/QMouseEvent \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QFile \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QSystemTrayIcon \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qsystemtrayicon.h \
 		../workspace-switch/buttonstyle.h \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QString \
+		../workspace-switch/mypushbutton.h \
 		ui_widget.h \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QVariant \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QApplication \
@@ -1187,6 +1422,7 @@ widget.o: ../workspace-switch/widget.cpp ../workspace-switch/widget.h \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qguiapplication.h \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qinputmethod.h \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/QFont \
+		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/QIcon \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QLabel \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qlabel.h \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qframe.h
@@ -1311,6 +1547,9 @@ workspaceswitcher.o: ../workspace-switch/workspaceswitcher.cpp ../workspace-swit
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtGui/QList \
 		/home/arcsinszy/App/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QVector
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o workspaceswitcher.o ../workspace-switch/workspaceswitcher.cpp
+
+moc_mypushbutton.o: moc_mypushbutton.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mypushbutton.o moc_mypushbutton.cpp
 
 moc_widget.o: moc_widget.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_widget.o moc_widget.cpp
